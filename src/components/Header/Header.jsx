@@ -15,7 +15,7 @@ const Header = () => {
         <span>ReactCards</span>
       </p>
       <div className={s.headerButtons}>
-        <Button>Add</Button>
+        <Button onClick={() => navigate("/addquestion")}>Add</Button>
         <Button>Login</Button>
       </div>
     </header>
