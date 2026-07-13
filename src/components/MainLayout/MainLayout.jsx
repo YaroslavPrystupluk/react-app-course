@@ -1,13 +1,14 @@
 import { Outlet } from "react-router-dom";
 
 import s from "./index.module.css";
+import { Header } from "../Header";
 
 const MainLayout = () => {
   const year = new Date().getFullYear();
 
   return (
     <div className={s.mainLayout}>
-      <header>Header</header>
+      <Header />
       <div className={s.mainWrapper}>
         <main className={s.main}>
           <Outlet />
