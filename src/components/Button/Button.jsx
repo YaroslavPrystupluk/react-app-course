@@ -1,5 +1,6 @@
-import s from "./index.module.css";
 import { memo } from "react";
+
+import s from "./index.module.css";
 
 const Button = memo(({ onClick, isActive, isDisabled, children }) => {
   return (

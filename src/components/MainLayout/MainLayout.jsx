@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
+import { Header } from "../Header";
 
 import s from "./index.module.css";
-import { Header } from "../Header";
 
 const MainLayout = () => {
   const year = new Date().getFullYear();

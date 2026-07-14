@@ -1,9 +1,8 @@
-import {} from "react";
+import { generatePath, useNavigate } from "react-router-dom";
+import { Button } from "../Button";
 import ReactLogo from "../../assets/react.svg";
 
 import s from "./index.module.css";
-import { generatePath, useNavigate } from "react-router-dom";
-import { Button } from "../Button";
 
 const Header = () => {
   const navigate = useNavigate();
