@@ -3,6 +3,7 @@
   --text-color: #fff;
   --btn-text-color: #fff;
   --btn-bg-color: #383b3f;
+  --card-bg-color: #343a46;
 
   --sans: system-ui, "Segoe UI", Roboto, sans-serif;
   --heading: system-ui, "Segoe UI", Roboto, sans-serif;
@@ -39,6 +40,7 @@ a {
     --text-color: #000;
     --btn-text-color: #16444f;
     --btn-bg-color: #57c4dc;
+    --card-bg-color: #ebedf0;
   }
 }
 
@@ -48,5 +50,6 @@ a {
     --text-color: #fff;
     --btn-text-color: #fff;
     --btn-bg-color: #383b3f;
+    --card-bg-color: #343a46;
   }
 }
