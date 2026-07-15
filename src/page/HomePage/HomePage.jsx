@@ -14,12 +14,11 @@ const HomePage = () => {
     if (!response.ok) {
       throw new Error("Something went wrong");
     }
-    const data = await response.json();
+    const questions = await response.json();
 
-    setQuestions(data);
-    return data;
+    setQuestions(questions);
+    return questions;
   });
-  console.log(error);
 
   useEffect(() => {
     geQquestions("react");
