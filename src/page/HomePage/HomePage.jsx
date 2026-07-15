@@ -1,19 +1,35 @@
 import { QuestionCard } from "../../components/QuestionCard";
-import {API_URL} from "../../constans/index.js";
-import {useFetch} from "../../hooks/useFetch.jsx";
-import {QuestionsCardList} from "../../components/QuestionsCardList";
+import { API_URL } from "../../constans/index.js";
+import { useFetch } from "../../hooks/useFetch.jsx";
+import { QuestionsCardList } from "../../components/QuestionsCardList";
+import { Loader } from "../../components/Loader";
 
 import s from "./index.module.css";
+import { useEffect, useState } from "react";
 
 const HomePage = () => {
-  const {data: cards, loading, error } = useFetch(`${API_URL}/react`);
+  const [questions, setQuestions] = useState([]);
+  const [geQquestions, isLoading, error] = useFetch(async (url) => {
+    const response = await fetch(`${API_URL}/${url}`);
+    if (!response.ok) {
+      throw new Error("Something went wrong");
+    }
+    const data = await response.json();
+
+    setQuestions(data);
+    return data;
+  });
+  console.log(error);
+
+  useEffect(() => {
+    geQquestions("react");
+  }, []);
 
   return (
     <>
-      {loading && <p>Loading...</p>}
+      {isLoading && <Loader />}
       {error && <p>Error: {error}</p>}
-      HomePage
-      <QuestionsCardList cards={cards} />
+      <QuestionsCardList cards={questions} />
     </>
   );
 };

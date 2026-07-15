@@ -1,27 +1,25 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
+import { delayFn } from "../helper/delayFn";
 
-export const useFetch = (url) => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+export const useFetch = (callback) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
-    const fetchData = async () => {
-        setLoading(true);
-        try {
-            setError(null);
-            const response = await fetch(url);
-            const data = await response.json();
-            setData(data);
-        } catch (e) {
-            setError(e.message || "Something went wrong");
-        } finally {
-            setLoading(false);
-        }
+  const fetchFn = async (arg) => {
+    try {
+      setIsLoading(true);
+      setError("");
+      await delayFn();
+
+      const response = await callback(arg);
+
+      return response;
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    useEffect(() => {
-        fetchData();
-    }, [])
-
-    return {data, loading, error};
+  return [fetchFn, isLoading, error];
 };
