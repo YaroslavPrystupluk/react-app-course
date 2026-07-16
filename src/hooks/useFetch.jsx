@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { delayFn } from "../helper/delayFn";
+import {useState} from "react";
+import {delayFn} from "../helper/delayFn";
 
 export const useFetch = (callback) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,9 +11,7 @@ export const useFetch = (callback) => {
       setError("");
       await delayFn();
 
-      const response = await callback(arg);
-
-      return response;
+      return await callback(arg);
     } catch (err) {
       setError(err.message);
     } finally {

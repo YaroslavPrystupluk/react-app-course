@@ -1,36 +1,44 @@
-import { QuestionCard } from "../../components/QuestionCard";
-import { API_URL } from "../../constans/index.js";
-import { useFetch } from "../../hooks/useFetch.jsx";
-import { QuestionsCardList } from "../../components/QuestionsCardList";
-import { Loader } from "../../components/Loader";
+import {useEffect, useRef, useState} from "react";
+import {API_URL} from "../../constans/index.js";
+import {useFetch} from "../../hooks/useFetch.jsx";
+import {QuestionsCardList} from "../../components/QuestionsCardList";
+import {Loader} from "../../components/Loader";
 
 import s from "./index.module.css";
-import { useEffect, useState } from "react";
+
 
 const HomePage = () => {
-  const [questions, setQuestions] = useState([]);
-  const [geQquestions, isLoading, error] = useFetch(async (url) => {
-    const response = await fetch(`${API_URL}/${url}`);
-    if (!response.ok) {
-      throw new Error("Something went wrong");
+    const [questions, setQuestions] = useState([]);
+    const [searchValue, setSearchValue] = useState("");
+
+    const [geQquestions, isLoading, error] = useFetch(async (url) => {
+        const response = await fetch(`${API_URL}/${url}`);
+        if (!response.ok) {
+            throw new Error("Something went wrong");
+        }
+        const questions = await response.json();
+
+        setQuestions(questions);
+        return questions;
+    });
+
+    useEffect(() => {
+        geQquestions("react");
+    }, []);
+
+    const onSearchChangeHandler = (e) => {
+        const searchValue = e.target.value;
+        setSearchValue(searchValue);
     }
-    const questions = await response.json();
 
-    setQuestions(questions);
-    return questions;
-  });
-
-  useEffect(() => {
-    geQquestions("react");
-  }, []);
-
-  return (
-    <>
-      {isLoading && <Loader />}
-      {error && <p>Error: {error}</p>}
-      <QuestionsCardList cards={questions} />
-    </>
-  );
+    return (
+        <>
+            <input type="text" value={searchValue} onChange={onSearchChangeHandler}/>
+            {isLoading && <Loader/>}
+            {error && <p>Error: {error}</p>}
+            <QuestionsCardList cards={questions}/>
+        </>
+    );
 };
 
 export default HomePage;

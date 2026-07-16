@@ -1,7 +1,9 @@
+import {memo} from "react";
 import { Button } from "../Button/index.jsx";
 import { useNavigate } from "react-router-dom";
 
 import s from "./index.module.css";
+
 
 const QuestionCard = ({ card }) => {
   const navigate = useNavigate();
@@ -22,4 +24,4 @@ const QuestionCard = ({ card }) => {
   );
 };
 
-export default QuestionCard;
+export default memo(QuestionCard);
