@@ -4,6 +4,7 @@ import { API_URL } from "../../constans/index.js";
 import { useFetch } from "../../hooks/useFetch.jsx";
 import { QuestionsCardList } from "../../components/QuestionsCardList";
 import { Loader } from "../../components/Loader";
+import { SearchInput } from "../../components/SearchInput";
 
 import s from "./index.module.css";
 
@@ -33,7 +34,9 @@ const HomePage = () => {
 
   return (
     <>
-      <input type="text" value={searchValue} onChange={onSearchChangeHandler} />
+      <div className={s.controlContainer}>
+        <SearchInput value={searchValue} onChange={onSearchChangeHandler} />
+      </div>
       {isLoading && <Loader />}
       {error && <p>Error: {error}</p>}
       <QuestionsCardList cards={questions} />

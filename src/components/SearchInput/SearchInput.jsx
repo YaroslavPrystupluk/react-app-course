@@ -1,0 +1,25 @@
+import { useId } from "react";
+import { SearchIcon } from "../icons.jsx";
+import s from "./index.module.css";
+
+const SearchInput = ({ value, onChange }) => {
+  const inputId = useId();
+
+  return (
+    <div className={s.inputWrapper}>
+      <label htmlFor={inputId}>
+        <SearchIcon className={s.searchIcon} />
+      </label>
+      <input
+        className={s.input}
+        type="text"
+        id={inputId}
+        value={value}
+        onChange={onChange}
+        placeholder="Пошук..."
+      />
+    </div>
+  );
+};
+
+export default SearchInput;
