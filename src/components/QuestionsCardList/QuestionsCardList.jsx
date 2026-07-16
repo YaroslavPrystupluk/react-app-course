@@ -5,7 +5,7 @@ import s from "./index.module.css";
 const QuestionsCardList = ({ cards }) => {
   return (
     <div className={s.cardList}>
-      {cards.map((card) => (
+      {cards?.map((card) => (
         <QuestionCard card={card} key={card.id} />
       ))}
     </div>

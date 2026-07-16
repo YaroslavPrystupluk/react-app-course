@@ -9,6 +9,8 @@ import s from "./index.module.css";
 
 const HomePage = () => {
   const [questions, setQuestions] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+
   const [geQquestions, isLoading, error] = useFetch(async (url) => {
     const response = await fetch(`${API_URL}/${url}`);
     if (!response.ok) {
@@ -24,8 +26,14 @@ const HomePage = () => {
     geQquestions("react");
   }, []);
 
+  const onSearchChangeHandler = (e) => {
+    const searchValue = e.target.value;
+    setSearchValue(searchValue);
+  };
+
   return (
     <>
+      <input type="text" value={searchValue} onChange={onSearchChangeHandler} />
       {isLoading && <Loader />}
       {error && <p>Error: {error}</p>}
       <QuestionsCardList cards={questions} />
