@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { QuestionCard } from "../../components/QuestionCard";
 import { API_URL } from "../../constans/index.js";
 import { useFetch } from "../../hooks/useFetch.jsx";
@@ -5,7 +6,6 @@ import { QuestionsCardList } from "../../components/QuestionsCardList";
 import { Loader } from "../../components/Loader";
 
 import s from "./index.module.css";
-import { useEffect, useState } from "react";
 
 const HomePage = () => {
   const [questions, setQuestions] = useState([]);
