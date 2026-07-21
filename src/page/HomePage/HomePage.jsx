@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { QuestionCard } from "../../components/QuestionCard";
 import { API_URL } from "../../constans/index.js";
 import { useFetch } from "../../hooks/useFetch.jsx";
@@ -27,6 +27,12 @@ const HomePage = () => {
     geQquestions("react");
   }, []);
 
+  const cards = useMemo(() => {
+    return questions.filter((card) =>
+      card.question.toLowerCase().includes(searchValue.toLowerCase().trim()),
+    );
+  }, [questions, searchValue]);
+
   const onSearchChangeHandler = (e) => {
     const searchValue = e.target.value;
     setSearchValue(searchValue);
@@ -39,7 +45,10 @@ const HomePage = () => {
       </div>
       {isLoading && <Loader />}
       {error && <p>Error: {error}</p>}
-      <QuestionsCardList cards={questions} />
+      {!isLoading && cards.length === 0 && (
+        <p className={s.noCardsInfo}>No cards...</p>
+      )}
+      <QuestionsCardList cards={cards} />
     </>
   );
 };
