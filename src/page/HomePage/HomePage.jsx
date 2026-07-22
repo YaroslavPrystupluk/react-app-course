@@ -6,16 +6,20 @@ import { QuestionsCardList } from "../../components/QuestionsCardList";
 import { Loader } from "../../components/Loader";
 import { SearchInput } from "../../components/SearchInput";
 import { SortSelect } from "../../components/SortSelect";
+import { DEFAULT_PER_PAGE } from "../../constants/constants.jsx";
 
 import s from "./index.module.css";
 
 const HomePage = () => {
-  const [questions, setQuestions] = useState([]);
+  const [searchParams, setSearchParams] = useState(
+    `?_page=1&_per_page=${DEFAULT_PER_PAGE}`,
+  );
+  const [questions, setQuestions] = useState({});
   const [searchValue, setSearchValue] = useState("");
   const [sortSelectValue, setSortSelectValue] = useState("");
 
   const [geQquestions, isLoading, error] = useFetch(async (url) => {
-    const response = await fetch(`${API_URL}/${url}?${sortSelectValue}`);
+    const response = await fetch(`${API_URL}/${url}`);
     if (!response.ok) {
       throw new Error("Something went wrong");
     }
@@ -26,23 +30,27 @@ const HomePage = () => {
   });
 
   useEffect(() => {
-    geQquestions(`react?${sortSelectValue}&question:contains=${searchValue}`);
-  }, [sortSelectValue, searchValue]);
-
-  const cards = useMemo(() => {
-    return questions.filter((card) =>
-      card.question.toLowerCase().includes(searchValue.toLowerCase().trim()),
+    geQquestions(
+      `react${searchParams}&${sortSelectValue}&question:contains=${searchValue}`,
     );
-  }, [questions, searchValue]);
+  }, [sortSelectValue, searchValue, searchParams]);
+
+  // const cards = useMemo(() => {
+  //   return questions.filter((card) =>
+  //     card.question.toLowerCase().includes(searchValue.toLowerCase().trim()),
+  //   );
+  // }, [questions, searchValue]);
+
+  console.log(questions);
 
   const onSearchChangeHandler = (e) => {
-    const searchValue = e.target.value;
-    setSearchValue(searchValue);
+    setSearchValue(e.target.value);
+    searchParams(`?_page=1&_per_page=${DEFAULT_PER_PAGE}&${e.target.value}`);
   };
 
   const onSortSelectChangeHandler = (e) => {
-    const searchValue = e.target.value;
-    setSortSelectValue(searchValue);
+    setSortSelectValue(e.target.value);
+    searchParams(`?_page=1&_per_page=${DEFAULT_PER_PAGE}&${e.target.value}`);
   };
 
   return (
@@ -56,10 +64,10 @@ const HomePage = () => {
       </div>
       {isLoading && <Loader />}
       {error && <p>Error: {error}</p>}
-      {!isLoading && cards.length === 0 && (
+      {!isLoading && questions?.length === 0 && (
         <p className={s.noCardsInfo}>No cards...</p>
       )}
-      <QuestionsCardList cards={questions} />
+      <QuestionsCardList cards={questions?.data} />
     </>
   );
 };
