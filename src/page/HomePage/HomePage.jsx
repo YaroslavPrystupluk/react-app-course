@@ -1,11 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { QuestionCard } from "../../components/QuestionCard";
 import { API_URL } from "../../constans/index.js";
 import { useFetch } from "../../hooks/useFetch.jsx";
 import { QuestionsCardList } from "../../components/QuestionsCardList";
 import { Loader } from "../../components/Loader";
 import { SearchInput } from "../../components/SearchInput";
+import { Button } from "../../components/Button";
 import { SortSelect } from "../../components/SortSelect";
+import { CountSelect } from "../../components/CountSelect";
 import { DEFAULT_PER_PAGE } from "../../constants/constants.jsx";
 
 import s from "./index.module.css";
@@ -17,6 +19,11 @@ const HomePage = () => {
   const [questions, setQuestions] = useState({});
   const [searchValue, setSearchValue] = useState("");
   const [sortSelectValue, setSortSelectValue] = useState("");
+  const [countSelectValue, setCountSelectValue] = useState("");
+  const controlContainerRef = useRef();
+
+  const getActivePageNumber = () =>
+    questions?.next === null ? questions?.last : questions?.next - 1;
 
   const [geQquestions, isLoading, error] = useFetch(async (url) => {
     const response = await fetch(`${API_URL}/${url}`);
@@ -35,39 +42,68 @@ const HomePage = () => {
     );
   }, [sortSelectValue, searchValue, searchParams]);
 
-  // const cards = useMemo(() => {
-  //   return questions.filter((card) =>
-  //     card.question.toLowerCase().includes(searchValue.toLowerCase().trim()),
-  //   );
-  // }, [questions, searchValue]);
-
-  console.log(questions);
+  const pagination = useMemo(() => {
+    const totalCardCount = questions?.pages || 0;
+    return Array(totalCardCount)
+      .fill(0)
+      .map((_, i) => i + 1);
+  }, [questions]);
 
   const onSearchChangeHandler = (e) => {
     setSearchValue(e.target.value);
-    searchParams(`?_page=1&_per_page=${DEFAULT_PER_PAGE}&${e.target.value}`);
+    setSearchParams(`?_page=1&_per_page=${countSelectValue}&${e.target.value}`);
   };
 
   const onSortSelectChangeHandler = (e) => {
     setSortSelectValue(e.target.value);
-    searchParams(`?_page=1&_per_page=${DEFAULT_PER_PAGE}&${e.target.value}`);
+    setSearchParams(`?_page=1&_per_page=${countSelectValue}&${e.target.value}`);
+  };
+
+  const onCountSelectChangeHandler = (e) => {
+    setCountSelectValue(e.target.value);
+    setSearchParams(`?_page=1&_per_page=${e.target.value}&${sortSelectValue}`);
+  };
+
+  const paginationHandler = (e) => {
+    if (e.target.tagName === "BUTTON") {
+      setSearchParams(
+        `?_page=${e.target.textContent}&_per_page=${countSelectValue}&${sortSelectValue}`,
+      );
+      controlContainerRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
     <>
-      <div className={s.controlContainer}>
+      <div className={s.controlContainer} ref={controlContainerRef}>
         <SearchInput value={searchValue} onChange={onSearchChangeHandler} />
         <SortSelect
           value={sortSelectValue}
           onChange={onSortSelectChangeHandler}
         />
+        <CountSelect
+          value={countSelectValue}
+          onChange={onCountSelectChangeHandler}
+        />
       </div>
       {isLoading && <Loader />}
       {error && <p>Error: {error}</p>}
-      {!isLoading && questions?.length === 0 && (
-        <p className={s.noCardsInfo}>No cards...</p>
-      )}
+
       <QuestionsCardList cards={questions?.data} />
+
+      {questions?.data?.length === 0 ? (
+        <p className={s.noCardsInfo}>No cards...</p>
+      ) : (
+        pagination.length > 1 && (
+          <div className={s.paginationContainer} onClick={paginationHandler}>
+            {pagination.map((value) => (
+              <Button key={value} isActive={value === getActivePageNumber()}>
+                {value}
+              </Button>
+            ))}
+          </div>
+        )
+      )}
     </>
   );
 };
