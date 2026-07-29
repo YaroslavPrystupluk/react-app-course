@@ -1,4 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import { Badge } from "../../components/Badge";
+import { Button } from "../../components/Button";
+
 import s from "./index.module.css";
 
 const QuestionPage = () => {
