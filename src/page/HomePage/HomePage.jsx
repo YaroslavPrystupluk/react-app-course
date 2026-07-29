@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { QuestionCard } from "../../components/QuestionCard";
 import { API_URL } from "../../constans/index.js";
 import { useFetch } from "../../hooks/useFetch.jsx";
 import { QuestionsCardList } from "../../components/QuestionsCardList";
@@ -40,7 +39,7 @@ const HomePage = () => {
     geQquestions(
       `react${searchParams}&${sortSelectValue}&question:contains=${searchValue}`,
     );
-  }, [sortSelectValue, searchValue, searchParams]);
+  }, [sortSelectValue, searchValue, searchParams, geQquestions]);
 
   const pagination = useMemo(() => {
     const totalCardCount = questions?.pages || 0;
