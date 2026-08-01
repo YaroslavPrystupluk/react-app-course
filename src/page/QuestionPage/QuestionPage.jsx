@@ -16,7 +16,10 @@ const QuestionPage = () => {
   const [card, setCard] = useState(null);
 
   const [fetchCard, isLoading] = useFetch(async () => {
-    const response = await fetch(`${API_URL}/react/${id}`);
+    const response = await fetch(`${API_URL}/react/${id}qqq`);
+    if (!response.ok) {
+      throw new Error("Something went wrong");
+    }
     const data = await response.json();
 
     setCard(data);
@@ -27,6 +30,9 @@ const QuestionPage = () => {
       method: "PATCH",
       body: JSON.stringify({ completed: isChecked }),
     });
+    if (!response.ok) {
+      throw new Error("Something went wrong");
+    }
     const data = await response.json();
     setCard(data);
   });
