@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { API_URL } from "../../constans/index.js";
+import { API_URL } from "../../constants/index.js";
 import { useFetch } from "../../hooks/useFetch.jsx";
 import { QuestionsCardList } from "../../components/QuestionsCardList";
 import { Loader } from "../../components/Loader";
@@ -12,19 +12,16 @@ import { DEFAULT_PER_PAGE } from "../../constants/constants.jsx";
 import s from "./index.module.css";
 
 const HomePage = () => {
-  const [searchParams, setSearchParams] = useState(
-    `?_page=1&_per_page=${DEFAULT_PER_PAGE}`,
-  );
+  const [searchParams, setSearchParams] = useState(`?_page=1&_per_page=${DEFAULT_PER_PAGE}`);
   const [questions, setQuestions] = useState({});
   const [searchValue, setSearchValue] = useState("");
   const [sortSelectValue, setSortSelectValue] = useState("");
   const [countSelectValue, setCountSelectValue] = useState("");
   const controlContainerRef = useRef();
 
-  const getActivePageNumber = () =>
-    questions?.next === null ? questions?.last : questions?.next - 1;
+  const getActivePageNumber = () => (questions?.next === null ? questions?.last : questions?.next - 1);
 
-  const [geQquestions, isLoading, error] = useFetch(async (url) => {
+  const [getQuestions, isLoading, error] = useFetch(async (url) => {
     const response = await fetch(`${API_URL}/${url}`);
     if (!response.ok) {
       throw new Error("Something went wrong");
@@ -36,10 +33,9 @@ const HomePage = () => {
   });
 
   useEffect(() => {
-    geQquestions(
-      `react${searchParams}&${sortSelectValue}&question:contains=${searchValue}`,
-    );
-  }, [sortSelectValue, searchValue, searchParams, geQquestions]);
+    getQuestions(`react${searchParams}&${sortSelectValue}&question:contains=${searchValue}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortSelectValue, searchValue, searchParams]);
 
   const pagination = useMemo(() => {
     const totalCardCount = questions?.pages || 0;
@@ -65,9 +61,7 @@ const HomePage = () => {
 
   const paginationHandler = (e) => {
     if (e.target.tagName === "BUTTON") {
-      setSearchParams(
-        `?_page=${e.target.textContent}&_per_page=${countSelectValue}&${sortSelectValue}`,
-      );
+      setSearchParams(`?_page=${e.target.textContent}&_per_page=${countSelectValue}&${sortSelectValue}`);
       controlContainerRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -76,14 +70,8 @@ const HomePage = () => {
     <>
       <div className={s.controlContainer} ref={controlContainerRef}>
         <SearchInput value={searchValue} onChange={onSearchChangeHandler} />
-        <SortSelect
-          value={sortSelectValue}
-          onChange={onSortSelectChangeHandler}
-        />
-        <CountSelect
-          value={countSelectValue}
-          onChange={onCountSelectChangeHandler}
-        />
+        <SortSelect value={sortSelectValue} onChange={onSortSelectChangeHandler} />
+        <CountSelect value={countSelectValue} onChange={onCountSelectChangeHandler} />
       </div>
       {isLoading && <Loader />}
       {error && <p>Error: {error}</p>}

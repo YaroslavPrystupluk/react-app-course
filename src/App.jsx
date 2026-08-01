@@ -12,6 +12,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="/question/:id" element={<QuestionPage />} />
           <Route path="/addquestion" element={<p>"addquestion"</p>} />
+          <Route path="/editquestion/:id" element={<p>"editquestion"</p>} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Route>

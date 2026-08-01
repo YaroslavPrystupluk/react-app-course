@@ -38,8 +38,8 @@ a {
   :root {
     --main-bg-color: #fff;
     --text-color: #000;
-    --btn-text-color: #16444f;
-    --btn-bg-color: #57c4dc;
+    --btn-text-color: #fff;
+    --btn-bg-color: #383b3f;
     --card-bg-color: #ebedf0;
   }
 }
@@ -48,8 +48,8 @@ a {
   :root {
     --main-bg-color: #23272f;
     --text-color: #fff;
-    --btn-text-color: #fff;
-    --btn-bg-color: #383b3f;
+    --btn-text-color: #57c4dc;
+    --btn-bg-color: #16444f;
     --card-bg-color: #343a46;
   }
 }
