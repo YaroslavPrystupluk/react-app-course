@@ -16,7 +16,7 @@ const QuestionPage = () => {
   const [card, setCard] = useState(null);
 
   const [fetchCard, isLoading] = useFetch(async () => {
-    const response = await fetch(`${API_URL}/react/${id}qqq`);
+    const response = await fetch(`${API_URL}/react/${id}`);
     if (!response.ok) {
       throw new Error("Something went wrong");
     }

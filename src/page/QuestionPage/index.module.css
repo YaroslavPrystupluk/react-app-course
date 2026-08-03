@@ -82,5 +82,9 @@
 .checkbox {
   width: 18px;
   height: 18px;
-  accent-color: #16c48f;
+  accent-color: var(--green-color);
+}
+
+.checkbox:disabled + span {
+  opacity: 0.5;
 }
