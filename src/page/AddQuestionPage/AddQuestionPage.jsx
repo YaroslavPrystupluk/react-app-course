@@ -19,16 +19,21 @@ const createQuestionAction = async (_prevState, formdata) => {
       editDate: undefined,
     };
 
-    const responce = await fetch(`${API_URL}/react`, {
+    const response = await fetch(`${API_URL}/react1`, {
       method: "POST",
       body: JSON.stringify(newQuestion),
     });
 
-    const question = await responce.json();
+    if (!response.ok) {
+      throw new Error("Something went wrong");
+    }
+
+    const question = await response.json();
     toast.success("New question is successfully");
     return isClearForm ? {} : question;
   } catch (error) {
     toast.error(error.message);
+    return {};
   }
 };
 
