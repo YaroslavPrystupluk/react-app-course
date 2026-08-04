@@ -3,6 +3,8 @@ import { Header } from "../Header";
 import { ToastContainer } from "react-toastify";
 
 import s from "./index.module.css";
+import {Suspense} from "react";
+import {Loader} from "../Loader/index.js";
 
 const MainLayout = () => {
   const year = new Date().getFullYear();
@@ -13,7 +15,9 @@ const MainLayout = () => {
         <Header />
         <div className={s.mainWrapper}>
           <main className={s.main}>
+            <Suspense fallback={<Loader />}>
             <Outlet />
+            </Suspense>
           </main>
           <footer className={s.footer}>
             <span>React Question Cards Application | {year}</span>

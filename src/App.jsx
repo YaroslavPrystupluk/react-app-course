@@ -3,7 +3,7 @@ import { MainLayout } from "./components/MainLayout";
 import { HomePage } from "./page/HomePage";
 import { NotFoundPage } from "./page/NotFoundPage";
 import { QuestionPage } from "./page/QuestionPage";
-import { AddQuestionPage } from "./page/AddQuestionPage";
+import {AddQuestionPage, AddQuestionPageLazy} from "./page/AddQuestionPage";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/question/:id" element={<QuestionPage />} />
-          <Route path="/addquestion" element={<AddQuestionPage />} />
+          <Route path="/addquestion" element={<AddQuestionPageLazy />} />
           <Route path="/editquestion/:id" element={<p>"editquestion"</p>} />
 
           <Route path="*" element={<NotFoundPage />} />

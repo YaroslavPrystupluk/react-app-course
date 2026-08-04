@@ -5,21 +5,21 @@ import { toast } from "react-toastify";
 import { delayFn } from "../../helper/delayFn";
 import { API_URL } from "../../constants";
 
-const createQuestionAction = async (_prevState, formdata) => {
+const createQuestionAction = async (_prevState, formData) => {
   try {
-    delayFn();
-    const newLevel = formdata.get("level");
-    const isClearForm = formdata.get("clearForm");
-    const newResources = formdata.get("resources").split(",");
+    await delayFn();
+    const newLevel = formData.get("level");
+    const isClearForm = formData.get("clearForm");
+    const newResources = formData.get("resources").split(",");
     const newQuestion = {
-      ...Object.fromEntries(formdata),
+      ...Object.fromEntries(formData),
       resources: newResources,
       level: Number(newLevel),
       completed: false,
       editDate: undefined,
     };
 
-    const response = await fetch(`${API_URL}/react1`, {
+    const response = await fetch(`${API_URL}/react`, {
       method: "POST",
       body: JSON.stringify(newQuestion),
     });
@@ -43,7 +43,7 @@ const AddQuestionPage = () => {
     <>
       <h1 className={s.formTitle}>Add new question</h1>
       <div className={s.formContainer}>
-        <form action={formAction} className={s.form} disabled={isPending}>
+        <form action={formAction} className={s.form} >
           <div className={s.formControl}>
             <label htmlFor="questuinField">Question: </label>
             <textarea
@@ -58,7 +58,7 @@ const AddQuestionPage = () => {
           </div>
 
           <div className={s.formControl}>
-            <label htmlFor="answerField">Short ansver: </label>
+            <label htmlFor="answerField">Short answer: </label>
             <textarea
               defaultValue={formState.answer}
               name="answer"
