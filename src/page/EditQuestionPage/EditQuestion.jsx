@@ -1,28 +1,30 @@
 import { useActionState } from "react";
-import { toast } from "react-toastify";
+import { QuestionForm } from "../../components/QuestionForm";
+import { Loader } from "../../components/Loader";
 import { delayFn } from "../../helper/delayFn";
 import { API_URL } from "../../constants";
-import { QuestionForm } from "../../components/QuestionForm/index.js";
+import { toast } from "react-toastify";
 
 import s from "./index.module.css";
-import Loader from "../../components/Loader/Loader.jsx";
+import { dateFormat } from "../../helper/dateFormat";
 
-const createQuestionAction = async (_prevState, formData) => {
+const editQuestionAction = async (_prevState, formData) => {
   try {
     await delayFn();
     const newLevel = formData.get("level");
     const isClearForm = formData.get("clearForm");
+    const questionId = formData.get("questionId");
     const newResources = formData.get("resources").split(",");
     const newQuestion = {
       ...Object.fromEntries(formData),
       resources: newResources,
       level: Number(newLevel),
       completed: false,
-      editDate: undefined,
+      editDate: dateFormat(new Date()),
     };
 
-    const response = await fetch(`${API_URL}/react`, {
-      method: "POST",
+    const response = await fetch(`${API_URL}/react/${questionId}`, {
+      method: "PATCH",
       body: JSON.stringify(newQuestion),
     });
 
@@ -31,7 +33,7 @@ const createQuestionAction = async (_prevState, formData) => {
     }
 
     const question = await response.json();
-    toast.success("New question is created successfully");
+    toast.success("Question is edited successfully");
     return isClearForm ? {} : question;
   } catch (error) {
     toast.error(error.message);
@@ -39,17 +41,17 @@ const createQuestionAction = async (_prevState, formData) => {
   }
 };
 
-const AddQuestionPage = () => {
-  const [formState, formAction, isPending] = useActionState(createQuestionAction, { clearForm: true });
+const EditQuestion = ({ initialState = {} }) => {
+  const [formState, formAction, isPending] = useActionState(editQuestionAction, { ...initialState, clearForm: false });
   return (
     <>
       {isPending && <Loader />}
-      <h1 className={s.formTitle}>Add new question</h1>
+      <h1 className={s.formTitle}>Edit question</h1>
       <div className={s.formContainer}>
-        <QuestionForm formState={formState} formAction={formAction} isPending={isPending} submitBtnText="Add question" />
+        <QuestionForm formState={formState} formAction={formAction} isPending={isPending} submitBtnText="Edit question" />
       </div>
     </>
   );
 };
 
-export default AddQuestionPage;
+export default EditQuestion;

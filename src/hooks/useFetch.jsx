@@ -15,7 +15,6 @@ export const useFetch = (callback) => {
       return await callback(arg);
     } catch (err) {
       setError(err.message);
-      console.log("tete");
 
       toast.error(err.message);
     } finally {

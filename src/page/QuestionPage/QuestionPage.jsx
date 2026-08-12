@@ -90,7 +90,7 @@ const QuestionPage = () => {
             <span>mark question as completed</span>
             {updateCardIsLoading && <SmallLoader />}
           </label>
-          <Button onClick={() => navigate("/")} isDisabled={isLoading || updateCardIsLoading}>
+          <Button onClick={() => navigate(`/editquestion/${card.id}`)} isDisabled={isLoading || updateCardIsLoading}>
             Edit Question
           </Button>
           <Button onClick={() => navigate(`/editquestion/${card.id}`)} isDisabled={isLoading || updateCardIsLoading}>
