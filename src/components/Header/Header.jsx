@@ -1,11 +1,19 @@
-import { generatePath, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../Button";
 import ReactLogo from "../../assets/react.svg";
 
 import s from "./index.module.css";
+import { useAuth } from "../../hooks/useAuth";
+import { IS_AUTH_LOCAL_STORAGE } from "../../constants";
 
 const Header = () => {
   const navigate = useNavigate();
+  const { isAuth, setIsAuth } = useAuth();
+
+  const loginHandler = () => {
+    localStorage.setItem(IS_AUTH_LOCAL_STORAGE, !isAuth);
+    setIsAuth(!isAuth);
+  };
 
   return (
     <header className={s.header}>
@@ -14,8 +22,10 @@ const Header = () => {
         <span>ReactCards</span>
       </p>
       <div className={s.headerButtons}>
-        <Button onClick={() => navigate("/addquestion")}>Add</Button>
-        <Button>Login</Button>
+        {isAuth && <Button onClick={() => navigate("/addquestion")}>Add</Button>}
+        <Button onClick={loginHandler} isActive={!isAuth}>
+          {isAuth ? "Logout" : "Login"}
+        </Button>
       </div>
     </header>
   );

@@ -8,12 +8,14 @@ import { Loader } from "../../components/Loader";
 import { SmallLoader } from "../../components/SmallLoader";
 
 import s from "./index.module.css";
+import { useAuth } from "../../hooks/useAuth";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const checkboxId = useId();
   const [card, setCard] = useState(null);
+  const { isAuth } = useAuth();
 
   const [fetchCard, isLoading] = useFetch(async () => {
     const response = await fetch(`${API_URL}/react/${id}`);
@@ -90,9 +92,11 @@ const QuestionPage = () => {
             <span>mark question as completed</span>
             {updateCardIsLoading && <SmallLoader />}
           </label>
-          <Button onClick={() => navigate(`/editquestion/${card.id}`)} isDisabled={isLoading || updateCardIsLoading}>
-            Edit Question
-          </Button>
+          {isAuth && (
+            <Button onClick={() => navigate(`/editquestion/${card.id}`)} isDisabled={isLoading || updateCardIsLoading}>
+              Edit Question
+            </Button>
+          )}
           <Button onClick={() => navigate(`/editquestion/${card.id}`)} isDisabled={isLoading || updateCardIsLoading}>
             Back
           </Button>
