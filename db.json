@@ -564,20 +564,6 @@
       "resources": [],
       "level": 1,
       "completed": false
-    },
-    {
-      "questionId": "NWCpvRtnXek",
-      "question": "111233",
-      "answer": "111",
-      "description": "1",
-      "resources": [
-        "1"
-      ],
-      "level": 1,
-      "clearForm": "on",
-      "completed": false,
-      "id": "NWCpvRtnXek",
-      "editDate": "12.08.2026, 23:41"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
