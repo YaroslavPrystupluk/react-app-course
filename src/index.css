@@ -31,6 +31,15 @@ body {
   color: var(--text-color);
 }
 
+.darkLayout {
+  --main-bg-color: #23272f;
+  --text-color: #fff;
+  --btn-text-color: #57c4dc;
+  --btn-bg-color: #16444f;
+  --card-bg-color: #343a46;
+  --green-color: #16c48f;
+}
+
 a {
   color: inherit;
 }

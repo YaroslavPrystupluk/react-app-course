@@ -7,7 +7,7 @@ import { SearchInput } from "../../components/SearchInput";
 import { Button } from "../../components/Button";
 import { SortSelect } from "../../components/SortSelect";
 import { CountSelect } from "../../components/CountSelect";
-import { DEFAULT_PER_PAGE } from "../../constants/constants.jsx";
+import { DEFAULT_PER_PAGE } from "../../constants";
 
 import s from "./index.module.css";
 
