@@ -6,9 +6,9 @@ import { useFetch } from "../../hooks/useFetch";
 import { API_URL } from "../../constants";
 import { Loader } from "../../components/Loader";
 import { SmallLoader } from "../../components/SmallLoader";
+import { useAuth } from "../../hooks/useAuth";
 
 import s from "./index.module.css";
-import { useAuth } from "../../hooks/useAuth";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
@@ -41,7 +41,6 @@ const QuestionPage = () => {
 
   useEffect(() => {
     fetchCard();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const levelVariant = () => (card.level === 1 ? "primary" : card.level === 2 ? "success" : "alert");

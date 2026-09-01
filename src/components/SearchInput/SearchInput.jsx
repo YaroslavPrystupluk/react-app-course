@@ -10,14 +10,7 @@ const SearchInput = ({ value, onChange }) => {
       <label htmlFor={inputId}>
         <SearchIcon className={s.searchIcon} />
       </label>
-      <input
-        className={s.input}
-        type="text"
-        id={inputId}
-        value={value}
-        onChange={onChange}
-        placeholder="Пошук..."
-      />
+      <input className={s.input} type="text" id={inputId} value={value} onChange={onChange} placeholder="Пошук..." />
     </div>
   );
 };

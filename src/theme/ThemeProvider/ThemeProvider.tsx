@@ -1,10 +1,15 @@
-import {useLayoutEffect, useState} from "react";
+import { useLayoutEffect, useState, type FC, type ReactNode } from "react";
 import { ThemeContext } from "./ThemeContext";
-import {THEME_LOCAL_STORAGE} from "../../constants";
+import { THEME_LOCAL_STORAGE } from "../../constants";
+import type { themeSchemaType } from "../../types/global.types";
 
-export const ThemeProvider = ({ children }) => {
-  const currentTheme = localStorage.getItem(THEME_LOCAL_STORAGE) || "light" ;
-  const [theme, setTheme] = useState(currentTheme);
+type Props = {
+  children: ReactNode;
+};
+
+export const ThemeProvider: FC<Props> = ({ children }) => {
+  const currentTheme = (localStorage.getItem(THEME_LOCAL_STORAGE) as themeSchemaType) || "light";
+  const [theme, setTheme] = useState<themeSchemaType>(currentTheme);
   useLayoutEffect(() => {
     const detectTheme = () => {
       const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -23,9 +28,7 @@ export const ThemeProvider = ({ children }) => {
     mediaQuery.addEventListener("change", detectTheme);
 
     return () => mediaQuery.removeEventListener("change", detectTheme);
-
   }, []);
 
-
-   return <ThemeContext value={{ theme, setTheme }}>{children}</ThemeContext>;
+  return <ThemeContext value={{ theme, setTheme }}>{children}</ThemeContext>;
 };
