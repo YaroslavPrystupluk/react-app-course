@@ -1,6 +1,6 @@
 import { useTheme } from "../../hooks/useTheme";
 import s from "./index.module.css";
-import { THEME_LOCAL_STORAGE } from "../../constants";
+import { THEME_LOCAL_STORAGE } from "../../constants/global.constants";
 import type { ChangeEvent } from "react";
 
 const ThemaToggler = () => {

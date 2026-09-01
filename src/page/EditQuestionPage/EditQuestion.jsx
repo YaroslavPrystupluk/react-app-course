@@ -2,7 +2,7 @@ import { useActionState } from "react";
 import { QuestionForm } from "../../components/QuestionForm";
 import { Loader } from "../../components/Loader";
 import { delayFn } from "../../helper/delayFn";
-import { API_URL } from "../../constants";
+import { API_URL } from "../../constants/global.constants";
 import { toast } from "react-toastify";
 
 import s from "./index.module.css";

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../Button";
 import ReactLogo from "../../assets/react.svg";
 import { useAuth } from "../../hooks/useAuth";
-import { IS_AUTH_LOCAL_STORAGE } from "../../constants";
+import { IS_AUTH_LOCAL_STORAGE } from "../../constants/global.constants";
 import { ThemeToggler } from "../../feature/ThemeToggler";
 
 import s from "./index.module.css";

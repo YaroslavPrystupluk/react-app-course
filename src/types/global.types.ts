@@ -16,3 +16,14 @@ export const THEME_TYPE = {
 } as const;
 
 export type themeSchemaType = (typeof THEME_TYPE)[keyof typeof THEME_TYPE];
+
+export type QuestionCardType = {
+  id: string;
+  question: string;
+  answer: string;
+  description: string;
+  resources: string[];
+  level: number;
+  completed: boolean;
+  editDate?: string;
+};

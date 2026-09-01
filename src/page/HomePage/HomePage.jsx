@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { API_URL } from "../../constants/index.js";
+import { API_URL } from "../../constants/global.constants.js";
 import { useFetch } from "../../hooks/useFetch.jsx";
 import { QuestionsCardList } from "../../components/QuestionsCardList";
 import { Loader } from "../../components/Loader";
@@ -7,7 +7,7 @@ import { SearchInput } from "../../components/SearchInput";
 import { Button } from "../../components/Button";
 import { SortSelect } from "../../components/SortSelect";
 import { CountSelect } from "../../components/CountSelect";
-import { DEFAULT_PER_PAGE } from "../../constants";
+import { DEFAULT_PER_PAGE } from "../../constants/global.constants.js";
 
 import s from "./index.module.css";
 

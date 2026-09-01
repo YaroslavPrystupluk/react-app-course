@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState, type FC, type ReactNode } from "react";
 import { ThemeContext } from "./ThemeContext";
-import { THEME_LOCAL_STORAGE } from "../../constants";
+import { THEME_LOCAL_STORAGE } from "../../constants/global.constants";
 import type { themeSchemaType } from "../../types/global.types";
 
 type Props = {

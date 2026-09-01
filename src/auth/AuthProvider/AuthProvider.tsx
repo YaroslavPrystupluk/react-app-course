@@ -1,6 +1,6 @@
 import { useState, type FC, type ReactNode } from "react";
 import { AuthContext } from "./AuthContext";
-import { IS_AUTH_LOCAL_STORAGE } from "../../constants";
+import { IS_AUTH_LOCAL_STORAGE } from "../../constants/global.constants";
 
 export type Props = {
   children: ReactNode;

@@ -1,20 +1,21 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useState, type ChangeEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Badge } from "../../components/Badge";
 import { Button } from "../../components/Button";
 import { useFetch } from "../../hooks/useFetch";
-import { API_URL } from "../../constants";
+import { API_URL } from "../../constants/global.constants";
 import { Loader } from "../../components/Loader";
 import { SmallLoader } from "../../components/SmallLoader";
 import { useAuth } from "../../hooks/useAuth";
 
 import s from "./index.module.css";
+import type { QuestionCardType } from "../../types/global.types";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const checkboxId = useId();
-  const [card, setCard] = useState(null);
+  const [card, setCard] = useState<QuestionCardType>();
   const { isAuth } = useAuth();
 
   const [fetchCard, isLoading] = useFetch(async () => {
@@ -43,10 +44,10 @@ const QuestionPage = () => {
     fetchCard();
   }, []);
 
-  const levelVariant = () => (card.level === 1 ? "primary" : card.level === 2 ? "success" : "alert");
-  const completedVariant = () => (card.completed ? "success" : "primary");
+  const levelVariant = () => (card?.level === 1 ? "primary" : card?.level === 2 ? "success" : "alert");
+  const completedVariant = () => (card?.completed ? "success" : "primary");
 
-  const onCheckboxChangeHandler = (e) => {
+  const onCheckboxChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
     setCard((prev) => ({ ...prev, completed: checked }));
     updateCard(checked);

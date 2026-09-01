@@ -1,7 +1,7 @@
 import { useActionState } from "react";
 import { toast } from "react-toastify";
 import { delayFn } from "../../helper/delayFn";
-import { API_URL } from "../../constants";
+import { API_URL } from "../../constants/global.constants.js";
 import { QuestionForm } from "../../components/QuestionForm/index.js";
 
 import s from "./index.module.css";
