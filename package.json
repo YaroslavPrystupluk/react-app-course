@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "server": "json-server --watch db.json -p 8080",
     "server:help": "json-server --help",
-    "start": "concurrently \"npm run server\" \"npm run dev\""
+    "start": "concurrently \"npm run server\" \"npm run dev\"",
+    "type:check": "tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
     "react": "^19.2.7",
