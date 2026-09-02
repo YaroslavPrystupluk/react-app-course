@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
 import { Header } from "../Header";
 import { ToastContainer } from "react-toastify";
+import { Suspense, type FC } from "react";
+import { Loader } from "../Loader";
 
 import s from "./index.module.css";
-import {Suspense} from "react";
-import {Loader} from "../Loader/index.js";
 
-const MainLayout = () => {
+const MainLayout: FC = () => {
   const year = new Date().getFullYear();
 
   return (
@@ -16,7 +16,7 @@ const MainLayout = () => {
         <div className={s.mainWrapper}>
           <main className={s.main}>
             <Suspense fallback={<Loader />}>
-            <Outlet />
+              <Outlet />
             </Suspense>
           </main>
           <footer className={s.footer}>

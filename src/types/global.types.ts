@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
+import type { THEME_TYPE_ENUM, VARIANT_TYPE_ENUM } from "../constants/global.constants";
 
 export type ThemeContextType = {
   theme: themeSchemaType;
@@ -10,12 +11,7 @@ export type AuthContextType = {
   setIsAuth: Dispatch<SetStateAction<boolean>>;
 };
 
-export const THEME_TYPE = {
-  LIGHT: "light",
-  DARK: "dark",
-} as const;
-
-export type themeSchemaType = (typeof THEME_TYPE)[keyof typeof THEME_TYPE];
+export type themeSchemaType = (typeof THEME_TYPE_ENUM)[keyof typeof THEME_TYPE_ENUM];
 
 export type QuestionCardType = {
   id: string;
@@ -27,3 +23,9 @@ export type QuestionCardType = {
   completed: boolean;
   editDate?: string;
 };
+
+export type QuestionCardStateType = QuestionCardType & {
+  clearForm: boolean;
+};
+
+export type LevelVariantType = (typeof VARIANT_TYPE_ENUM)[keyof typeof VARIANT_TYPE_ENUM];

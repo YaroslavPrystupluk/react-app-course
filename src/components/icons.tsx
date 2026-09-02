@@ -1,4 +1,4 @@
-export const SearchIcon = (props) => {
+export const SearchIcon = ({ ...props }) => {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" {...props}>
       <path

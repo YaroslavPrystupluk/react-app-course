@@ -3,9 +3,9 @@ import { memo, type FC, type ReactNode } from "react";
 import s from "./index.module.css";
 
 type Props = {
-  onClick: () => void;
+  onClick?: () => void;
   isActive?: boolean;
-  isDisabled: boolean;
+  isDisabled?: boolean;
   children: ReactNode;
 };
 

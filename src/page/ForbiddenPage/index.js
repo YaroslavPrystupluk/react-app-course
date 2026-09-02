@@ -1,1 +1,1 @@
-export { default as ForbiddenPage } from "./ForbiddenPage.jsx";
+export { default as ForbiddenPage } from "./ForbiddenPage";

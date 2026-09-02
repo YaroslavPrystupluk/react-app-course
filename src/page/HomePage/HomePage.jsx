@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { API_URL } from "../../constants/global.constants.js";
-import { useFetch } from "../../hooks/useFetch.jsx";
+import { useFetch } from "../../hooks/useFetch.ts";
 import { QuestionsCardList } from "../../components/QuestionsCardList";
 import { Loader } from "../../components/Loader";
 import { SearchInput } from "../../components/SearchInput";

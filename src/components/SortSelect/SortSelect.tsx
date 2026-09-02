@@ -1,6 +1,12 @@
+import type { FC } from "react";
 import s from "./index.module.css";
 
-const SortSelect = ({ value, onChange, children }) => {
+type Props = {
+  value: string;
+  onChange: () => void;
+};
+
+const SortSelect: FC<Props> = ({ value, onChange }) => {
   return (
     <select className={s.select} value={value} onChange={onChange}>
       <option value="">Sort by</option>

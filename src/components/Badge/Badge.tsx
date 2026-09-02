@@ -1,6 +1,13 @@
+import type { FC, ReactNode } from "react";
 import s from "./index.module.css";
+import type { LevelVariantType } from "../../types/global.types";
 
-const Badge = ({ variant, children }) => {
+type Props = {
+  variant: LevelVariantType;
+  children: ReactNode;
+};
+
+const Badge: FC<Props> = ({ variant, children }) => {
   switch (variant) {
     case "primary":
       return <div className={`${s.badge} ${s.primary}`}>{children}</div>;

@@ -1,8 +1,17 @@
-import { Button } from "../Button/index.jsx";
+import type { FC } from "react";
+import { Button } from "../Button";
+import type { QuestionCardStateType } from "../../types/global.types";
 
 import s from "./index.module.css";
 
-const QuestionForm = ({ formState, formAction, isPending, submitBtnText }) => {
+type Props = {
+  formState: QuestionCardStateType;
+  formAction: () => void;
+  isPending: boolean;
+  submitBtnText: string;
+};
+
+const QuestionForm: FC<Props> = ({ formState, formAction, isPending, submitBtnText }) => {
   return (
     <form action={formAction} className={s.form}>
       <input hidden name="questionId" defaultValue={formState.id} type="text" />
@@ -12,8 +21,8 @@ const QuestionForm = ({ formState, formAction, isPending, submitBtnText }) => {
           defaultValue={formState.question}
           name="question"
           id="questuinField"
-          cols="30"
-          rows="2"
+          cols={30}
+          rows={2}
           required
           placeholder="please enter a question"
         ></textarea>
@@ -25,8 +34,8 @@ const QuestionForm = ({ formState, formAction, isPending, submitBtnText }) => {
           defaultValue={formState.answer}
           name="answer"
           id="answerField"
-          cols="30"
-          rows="2"
+          cols={30}
+          rows={2}
           required
           placeholder="please enter a short answer"
         ></textarea>
@@ -38,8 +47,8 @@ const QuestionForm = ({ formState, formAction, isPending, submitBtnText }) => {
           defaultValue={formState.description}
           name="description"
           id="descriptionField"
-          cols="30"
-          rows="5"
+          cols={30}
+          rows={5}
           required
           placeholder="please enter a full description"
         ></textarea>
@@ -50,8 +59,8 @@ const QuestionForm = ({ formState, formAction, isPending, submitBtnText }) => {
           defaultValue={formState.resources}
           name="resources"
           id="resourcesField"
-          cols="30"
-          rows="2"
+          cols={30}
+          rows={2}
           placeholder="please enter resources separated by commas"
         ></textarea>
       </div>
@@ -72,7 +81,7 @@ const QuestionForm = ({ formState, formAction, isPending, submitBtnText }) => {
         <input className={s.checkbox} type="checkbox" name="clearForm" id="clearFormField" defaultChecked={formState.clearForm} />
         <span>clear form after submitting?</span>
       </label>
-      <Button disabled={isPending}>{submitBtnText}</Button>
+      <Button isDisabled={isPending}>{submitBtnText}</Button>
     </form>
   );
 };

@@ -1,11 +1,11 @@
 import { useActionState } from "react";
 import { toast } from "react-toastify";
 import { delayFn } from "../../helper/delayFn";
-import { API_URL } from "../../constants/global.constants.js";
-import { QuestionForm } from "../../components/QuestionForm/index.js";
+import { API_URL } from "../../constants/global.constants.ts";
+import { QuestionForm } from "../../components/QuestionForm";
+import Loader from "../../components/Loader";
 
 import s from "./index.module.css";
-import Loader from "../../components/Loader/Loader.jsx";
 
 const createQuestionAction = async (_prevState, formData) => {
   try {

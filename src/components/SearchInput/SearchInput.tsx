@@ -1,8 +1,13 @@
-import { useId } from "react";
-import { SearchIcon } from "../icons.jsx";
+import { useId, type FC } from "react";
+import { SearchIcon } from "../icons";
 import s from "./index.module.css";
 
-const SearchInput = ({ value, onChange }) => {
+type Props = {
+  value: string;
+  onChange: () => void;
+};
+
+const SearchInput: FC<Props> = ({ value, onChange }) => {
   const inputId = useId();
 
   return (

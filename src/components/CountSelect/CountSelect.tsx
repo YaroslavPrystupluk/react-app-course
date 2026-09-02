@@ -1,6 +1,12 @@
+import type { FC } from "react";
 import s from "./index.module.css";
 
-const CountSelect = ({ value, onChange, children }) => {
+type Props = {
+  value: string;
+  onChange: () => void;
+};
+
+const CountSelect: FC<Props> = ({ value, onChange }) => {
   return (
     <select className={s.select} value={value} onChange={onChange}>
       <option disabled>Count</option>
