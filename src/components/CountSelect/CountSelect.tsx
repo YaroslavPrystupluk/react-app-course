@@ -1,9 +1,9 @@
-import type { FC } from "react";
+import type { ChangeEvent, FC } from "react";
 import s from "./index.module.css";
 
 type Props = {
   value: string;
-  onChange: () => void;
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
 };
 
 const CountSelect: FC<Props> = ({ value, onChange }) => {

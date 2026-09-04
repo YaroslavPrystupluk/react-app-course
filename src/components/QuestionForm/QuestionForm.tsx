@@ -5,8 +5,8 @@ import type { QuestionCardStateType } from "../../types/global.types";
 import s from "./index.module.css";
 
 type Props = {
-  formState: QuestionCardStateType;
-  formAction: () => void;
+  formState: Partial<QuestionCardStateType>;
+  formAction: any;
   isPending: boolean;
   submitBtnText: string;
 };

@@ -7,15 +7,15 @@ import { API_URL } from "../../constants/global.constants";
 import { Loader } from "../../components/Loader";
 import { SmallLoader } from "../../components/SmallLoader";
 import { useAuth } from "../../hooks/useAuth";
+import type { QuestionCardType } from "../../types/global.types";
 
 import s from "./index.module.css";
-import type { QuestionCardType } from "../../types/global.types";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const checkboxId = useId();
-  const [card, setCard] = useState<QuestionCardType>();
+  const [card, setCard] = useState<QuestionCardType | null>(null);
   const { isAuth } = useAuth();
 
   const [fetchCard, isLoading] = useFetch(async () => {
@@ -49,7 +49,7 @@ const QuestionPage = () => {
 
   const onCheckboxChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
-    setCard((prev) => ({ ...prev, completed: checked }));
+    setCard((prev) => (prev ? { ...prev, completed: checked } : null));
     updateCard(checked);
   };
 

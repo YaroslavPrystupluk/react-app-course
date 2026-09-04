@@ -1,4 +1,4 @@
-import { useActionState } from "react";
+import { useActionState, type FC } from "react";
 import { QuestionForm } from "../../components/QuestionForm";
 import { Loader } from "../../components/Loader";
 import { delayFn } from "../../helper/delayFn";
@@ -9,14 +9,16 @@ import s from "./index.module.css";
 import { dateFormat } from "../../helper/dateFormat";
 import { useFetch } from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
+import type { QuestionCardStateType } from "../../types/global.types";
 
-const editQuestionAction = async (_prevState, formData) => {
+const editQuestionAction = async (_prevState: Partial<QuestionCardStateType>, formData: FormData) => {
   try {
     await delayFn();
+    const resourcesValue = formData.get("resources");
     const newLevel = formData.get("level");
     const isClearForm = formData.get("clearForm");
     const questionId = formData.get("questionId");
-    const newResources = formData.get("resources").split(",");
+    const newResources = typeof resourcesValue === "string" ? resourcesValue.trim().split(",") : [];
     const newQuestion = {
       ...Object.fromEntries(formData),
       resources: newResources,
@@ -37,15 +39,23 @@ const editQuestionAction = async (_prevState, formData) => {
     const question = await response.json();
     toast.success("Question is edited successfully");
     return isClearForm ? {} : question;
-  } catch (error) {
-    toast.error(error.message);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    toast.error(message);
     return {};
   }
 };
 
-const EditQuestion = ({ initialState = {} }) => {
+type Props = {
+  initialState: Partial<QuestionCardStateType>;
+};
+
+const EditQuestion: FC<Props> = ({ initialState }) => {
   const navigate = useNavigate();
-  const [formState, formAction, isPending] = useActionState(editQuestionAction, { ...initialState, clearForm: false });
+  const [formState, formAction, isPending] = useActionState<Partial<QuestionCardStateType>, FormData>(editQuestionAction, {
+    ...initialState,
+    clearForm: false,
+  });
 
   const [removeQuestions, isQuestionRemoving] = useFetch(async () => {
     const response = await fetch(`${API_URL}/react/${initialState.id}`, {

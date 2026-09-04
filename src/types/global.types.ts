@@ -29,3 +29,13 @@ export type QuestionCardStateType = QuestionCardType & {
 };
 
 export type LevelVariantType = (typeof VARIANT_TYPE_ENUM)[keyof typeof VARIANT_TYPE_ENUM];
+
+export type QuestionCardDataType = {
+  data: QuestionCardType[];
+  first: number | null;
+  items: number | null;
+  last: number | null;
+  next: number | null;
+  pages: number | null;
+  prev: number | null;
+};

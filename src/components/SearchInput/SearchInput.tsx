@@ -1,10 +1,10 @@
-import { useId, type FC } from "react";
+import { useId, type ChangeEvent, type FC } from "react";
 import { SearchIcon } from "../icons";
 import s from "./index.module.css";
 
 type Props = {
   value: string;
-  onChange: () => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 const SearchInput: FC<Props> = ({ value, onChange }) => {
