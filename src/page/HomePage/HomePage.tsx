@@ -62,8 +62,9 @@ const HomePage: FC = () => {
   };
 
   const paginationHandler = (e: MouseEvent<HTMLDivElement>): void => {
-    if ((e.target as HTMLElement).tagName === "BUTTON") {
-      setSearchParams(`?_page=${(e.target as HTMLElement).textContent}&_per_page=${countSelectValue}&${sortSelectValue}`);
+    const targetElement = e.target as HTMLElement;
+    if (targetElement.tagName === "BUTTON") {
+      setSearchParams(`?_page=${targetElement.textContent}&_per_page=${countSelectValue}&${sortSelectValue}`);
       controlContainerRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   };

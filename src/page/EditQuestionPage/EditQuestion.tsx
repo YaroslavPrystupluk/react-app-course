@@ -4,12 +4,12 @@ import { Loader } from "../../components/Loader";
 import { delayFn } from "../../helper/delayFn";
 import { API_URL } from "../../constants/global.constants";
 import { toast } from "react-toastify";
-
-import s from "./index.module.css";
 import { dateFormat } from "../../helper/dateFormat";
 import { useFetch } from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import type { QuestionCardStateType } from "../../types/global.types";
+
+import s from "./index.module.css";
 
 const editQuestionAction = async (_prevState: Partial<QuestionCardStateType>, formData: FormData) => {
   try {
