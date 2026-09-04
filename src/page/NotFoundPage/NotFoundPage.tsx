@@ -1,8 +1,9 @@
+import type { FC } from "react";
 import { Link } from "react-router-dom";
 
 import s from "./index.module.css";
 
-const NotFoundPage = () => {
+const NotFoundPage: FC = () => {
   return (
     <main className={s.page}>
       <div className={s.content}>
@@ -10,9 +11,7 @@ const NotFoundPage = () => {
 
         <h1 className={s.title}>Сторінку не знайдено</h1>
 
-        <p className={s.description}>
-          Сторінка, яку ви шукаєте, не існує або була переміщена.
-        </p>
+        <p className={s.description}>Сторінка, яку ви шукаєте, не існує або була переміщена.</p>
 
         <Link className={s.link} to="/">
           Повернутися на головну

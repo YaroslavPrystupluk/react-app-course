@@ -1,11 +1,11 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
+import { useAuth } from "../../hooks/useAuth";
+import { useEffect, type FC } from "react";
 
 import s from "./index.module.css";
-import { useAuth } from "../../hooks/useAuth";
-import { useEffect } from "react";
 
-const ForbiddenPage = () => {
+const ForbiddenPage: FC = () => {
   const navigate = useNavigate();
   const lacation = useLocation();
   const { isAuth } = useAuth();
@@ -25,9 +25,7 @@ const ForbiddenPage = () => {
         </p>
 
         <div className={s.actions}>
-          <Button size="large" onClick={() => navigate("/")}>
-            Go to Home
-          </Button>
+          <Button onClick={() => navigate("/")}>Go to Home</Button>
         </div>
       </div>
     </div>
