@@ -1,4 +1,4 @@
-import type { CardsSearchParams, QuestionCardDataType, QuestionCardStateType, QuestionCardType } from "../../types/global.types";
+import type { CardsSearchParams, QuestionCardDataType, QuestionCardStateType } from "../../types/global.types";
 import { instance } from "../axios";
 
 export const questionsApiService = {
@@ -18,12 +18,12 @@ export const questionsApiService = {
     return result.data;
   },
 
-  createCard: async (data: FormData): Promise<QuestionCardStateType> => {
-    const result = await instance.post("/react", { data });
+  createCard: async (data: Partial<QuestionCardStateType>): Promise<QuestionCardStateType> => {
+    const result = await instance.post("/react", data);
     return result.data;
   },
 
-  editCard: async (id: string, data: FormData): Promise<QuestionCardType> => {
+  editCard: async (id: string, data: FormData): Promise<Partial<QuestionCardStateType>> => {
     const result = await instance.post(`react/${id}`, { data });
     return result.data;
   },

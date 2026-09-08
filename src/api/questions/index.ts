@@ -1,7 +1,7 @@
 import { queryOptions, useMutation, useQuery } from "@tanstack/react-query";
 import { questionsApiService } from "./service";
 import { useCardsSearchParams } from "../../page/HomePage/constants";
-import type { CardsSearchParams } from "../../types/global.types";
+import type { CardsSearchParams, QuestionCardStateType } from "../../types/global.types";
 
 export const questionKey = {
   getListCards: (params: CardsSearchParams) => ["cards", params],
@@ -29,7 +29,7 @@ export const useGetCard = (id: string) => useQuery(getCardOptions(id));
 
 export const useCreateCard = () =>
   useMutation({
-    mutationFn: (data: FormData) => questionsApiService.createCard(data),
+    mutationFn: (data: Partial<QuestionCardStateType>) => questionsApiService.createCard(data),
   });
 
 export const useEditCard = () =>

@@ -26,16 +26,8 @@ const createQuestionAction =
         editDate: undefined,
       };
 
-      // const response = await fetch(`${API_URL}/react`, {
-      //   method: "POST",
-      //   body: JSON.stringify(newQuestion),
-      // });
+      const question = await createCardMutation(newQuestion);
 
-      // if (!response.ok) {
-      //   throw new Error("Something went wrong");
-      // }
-
-      const question = await createCardMutation({ ...newQuestion });
       toast.success("New question is created successfully");
       return isClearForm ? {} : question;
     } catch (error: unknown) {
