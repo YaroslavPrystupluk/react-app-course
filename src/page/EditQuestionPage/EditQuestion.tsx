@@ -59,18 +59,6 @@ const EditQuestion: FC<Props> = ({ initialState }) => {
 
   const deleteCardMutation = useDeleteCard();
 
-  // const [removeQuestions, isQuestionRemoving] = useFetch(async () => {
-  //   const response = await fetch(`${API_URL}/react/${initialState.id}`, {
-  //     method: "DELETE",
-  //   });
-
-  //   if (!response.ok) {
-  //     throw new Error("Something went wrong");
-  //   }
-  //   toast.success("The question has been succssesfully removed");
-  //   navigate("/");
-  // });
-
   const onRemoveQuestionHandler = () => {
     if (!initialState.id) return;
     const isRemove = confirm("Are you sure");
@@ -79,6 +67,9 @@ const EditQuestion: FC<Props> = ({ initialState }) => {
         onSuccess() {
           toast.success("The question has been succssesfully removed");
           navigate("/");
+        },
+        onError(error) {
+          toast.error(error.message);
         },
       });
   };

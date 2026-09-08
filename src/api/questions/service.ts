@@ -18,6 +18,11 @@ export const questionsApiService = {
     return result.data;
   },
 
+  createCard: async (data: FormData): Promise<QuestionCardStateType> => {
+    const result = await instance.post("/react", { data });
+    return result.data;
+  },
+
   editCard: async (id: string, data: FormData): Promise<QuestionCardType> => {
     const result = await instance.post(`react/${id}`, { data });
     return result.data;

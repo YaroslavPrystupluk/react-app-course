@@ -27,6 +27,11 @@ const getCardOptions = (id: string) =>
 
 export const useGetCard = (id: string) => useQuery(getCardOptions(id));
 
+export const useCreateCard = () =>
+  useMutation({
+    mutationFn: (data: FormData) => questionsApiService.createCard(data),
+  });
+
 export const useEditCard = () =>
   useMutation({
     mutationFn: ({ id, data }: { id: string; data: FormData }) => questionsApiService.editCard(id, data),
