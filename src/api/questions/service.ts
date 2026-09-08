@@ -1,4 +1,4 @@
-import type { CardsSearchParams, QuestionCardDataType } from "../../types/global.types";
+import type { CardsSearchParams, QuestionCardDataType, QuestionCardStateType, QuestionCardType } from "../../types/global.types";
 import { instance } from "../axios";
 
 export const questionsApiService = {
@@ -9,7 +9,22 @@ export const questionsApiService = {
     if (params.sort) query.set("_sort", params.sort);
     if (params.search) query.set("question:contains", params.search);
 
-    const x = await instance.get(`react?${query.toString()}`, { signal });
-    return x.data;
+    const result = await instance.get(`react?${query.toString()}`, { signal });
+    return result.data;
+  },
+
+  getCard: async (id: string) => {
+    const result = await instance.get(`react/${id}`);
+    return result.data;
+  },
+
+  editCard: async (id: string, data: FormData): Promise<QuestionCardType> => {
+    const result = await instance.post(`react/${id}`, { data });
+    return result.data;
+  },
+
+  deleteCard: async (id: string): Promise<Partial<QuestionCardStateType>> => {
+    const result = await instance.delete(`react/${id}`);
+    return result.data;
   },
 };

@@ -5,11 +5,11 @@ import { delayFn } from "../../helper/delayFn";
 import { API_URL } from "../../constants/global.constants";
 import { toast } from "react-toastify";
 import { dateFormat } from "../../helper/dateFormat";
-import { useFetch } from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import type { QuestionCardStateType } from "../../types/global.types";
 
 import s from "./index.module.css";
+import { useDeleteCard } from "../../api/questions";
 
 const editQuestionAction = async (_prevState: Partial<QuestionCardStateType>, formData: FormData) => {
   try {
@@ -57,35 +57,44 @@ const EditQuestion: FC<Props> = ({ initialState }) => {
     clearForm: false,
   });
 
-  const [removeQuestions, isQuestionRemoving] = useFetch(async () => {
-    const response = await fetch(`${API_URL}/react/${initialState.id}`, {
-      method: "DELETE",
-    });
+  const deleteCardMutation = useDeleteCard();
 
-    if (!response.ok) {
-      throw new Error("Something went wrong");
-    }
-    toast.success("The question has been succssesfully removed");
-    navigate("/");
-  });
+  // const [removeQuestions, isQuestionRemoving] = useFetch(async () => {
+  //   const response = await fetch(`${API_URL}/react/${initialState.id}`, {
+  //     method: "DELETE",
+  //   });
+
+  //   if (!response.ok) {
+  //     throw new Error("Something went wrong");
+  //   }
+  //   toast.success("The question has been succssesfully removed");
+  //   navigate("/");
+  // });
 
   const onRemoveQuestionHandler = () => {
+    if (!initialState.id) return;
     const isRemove = confirm("Are you sure");
-    isRemove && removeQuestions();
+    if (isRemove)
+      deleteCardMutation.mutate(initialState.id, {
+        onSuccess() {
+          toast.success("The question has been succssesfully removed");
+          navigate("/");
+        },
+      });
   };
 
   return (
     <>
-      {(isPending || isQuestionRemoving) && <Loader />}
+      {(isPending || deleteCardMutation.isPending) && <Loader />}
       <h1 className={s.formTitle}>Edit question</h1>
       <div className={s.formContainer}>
-        <button onClick={onRemoveQuestionHandler} className={s.removeBtn} disabled={isPending || isQuestionRemoving}>
+        <button onClick={onRemoveQuestionHandler} className={s.removeBtn} disabled={isPending || deleteCardMutation.isPending}>
           X
         </button>
         <QuestionForm
           formState={formState}
           formAction={formAction}
-          isPending={isPending || isQuestionRemoving}
+          isPending={isPending || deleteCardMutation.isPending}
           submitBtnText="Edit question"
         />
       </div>
