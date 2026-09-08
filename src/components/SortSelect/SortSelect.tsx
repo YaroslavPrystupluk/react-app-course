@@ -11,10 +11,10 @@ const SortSelect: FC<Props> = ({ value, onChange }) => {
     <select className={s.select} value={value} onChange={onChange}>
       <option value="">Sort by</option>
       <hr />
-      <option value="_sort=level">Level ASC</option>
-      <option value="_sort=-level">Level DESC</option>
-      <option value="_sort=completed">Completed ASC</option>
-      <option value="_sort=-completed">Completed DESC</option>
+      <option value="level">Level ASC</option>
+      <option value="-level">Level DESC</option>
+      <option value="completed">Completed ASC</option>
+      <option value="-completed">Completed DESC</option>
     </select>
   );
 };

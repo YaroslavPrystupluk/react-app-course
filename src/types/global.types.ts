@@ -1,5 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { THEME_TYPE_ENUM, VARIANT_TYPE_ENUM } from "../constants/global.constants";
+import type { inferParserType } from "nuqs";
+import type { searchParamsConfig } from "../page/HomePage/constants";
 
 export type ThemeContextType = {
   theme: themeSchemaType;
@@ -39,3 +41,5 @@ export type QuestionCardDataType = {
   pages: number | null;
   prev: number | null;
 };
+
+export type CardsSearchParams = inferParserType<typeof searchParamsConfig>;

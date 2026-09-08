@@ -1,43 +1,23 @@
-import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FC, type MouseEvent } from "react";
-import { API_URL } from "../../constants/global.constants";
-import { useFetch } from "../../hooks/useFetch";
+import { useMemo, useRef, type ChangeEvent, type FC, type MouseEvent } from "react";
 import { QuestionsCardList } from "../../components/QuestionsCardList";
 import { Loader } from "../../components/Loader";
 import { SearchInput } from "../../components/SearchInput";
 import { Button } from "../../components/Button";
 import { SortSelect } from "../../components/SortSelect";
 import { CountSelect } from "../../components/CountSelect";
-import { DEFAULT_PER_PAGE } from "../../constants/global.constants";
-
+import { useGetlistCards } from "../../api/questions";
+import { useCardsSearchParams } from "./constants";
 import s from "./index.module.css";
-import type { QuestionCardDataType } from "../../types/global.types";
 
 const HomePage: FC = () => {
-  const [searchParams, setSearchParams] = useState<string>(`?_page=1&_per_page=${DEFAULT_PER_PAGE}`);
-  const [questions, setQuestions] = useState<QuestionCardDataType | null>(null);
-  const [searchValue, setSearchValue] = useState<string>("");
-  const [sortSelectValue, setSortSelectValue] = useState<string>("");
-  const [countSelectValue, setCountSelectValue] = useState<string>("");
   const controlContainerRef = useRef<HTMLDivElement | null>(null);
+  const [{ page, perPage, sort, search }, setSearchParams] = useCardsSearchParams();
+  const { data: questions, isPending, isError, error } = useGetlistCards();
 
-  const getActivePageNumber = (questions: QuestionCardDataType): number | null =>
-    questions.next === null ? questions.last : questions.next - 1;
-
-  const [getQuestions, isLoading, error] = useFetch(async (url) => {
-    const response = await fetch(`${API_URL}/${url}`);
-    if (!response.ok) {
-      throw new Error("Something went wrong");
-    }
-    const questions = await response.json();
-
-    setQuestions(questions);
-    return questions;
-  });
-
-  useEffect(() => {
-    getQuestions(`react${searchParams}&${sortSelectValue}&question:contains=${searchValue}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortSelectValue, searchValue, searchParams]);
+  const getActivePageNumber = (): number | null => {
+    if (!questions) return null;
+    return questions.next === null ? questions.last : questions.next - 1;
+  };
 
   const pagination = useMemo(() => {
     const totalCardCount = questions?.pages || 0;
@@ -47,24 +27,21 @@ const HomePage: FC = () => {
   }, [questions]);
 
   const onSearchChangeHandler = (e: ChangeEvent<HTMLInputElement>): void => {
-    setSearchValue(e.target.value);
-    setSearchParams(`?_page=1&_per_page=${countSelectValue}&${e.target.value}`);
+    setSearchParams({ search: e.target.value || null });
   };
 
   const onSortSelectChangeHandler = (e: ChangeEvent<HTMLSelectElement>): void => {
-    setSortSelectValue(e.target.value);
-    setSearchParams(`?_page=1&_per_page=${countSelectValue}&${e.target.value}`);
+    setSearchParams({ sort: e.target.value || null, page: 1 });
   };
 
   const onCountSelectChangeHandler = (e: ChangeEvent<HTMLSelectElement>): void => {
-    setCountSelectValue(e.target.value);
-    setSearchParams(`?_page=1&_per_page=${e.target.value}&${sortSelectValue}`);
+    setSearchParams({ page: 1, perPage: Number(e.target.value) || null });
   };
 
   const paginationHandler = (e: MouseEvent<HTMLDivElement>): void => {
     const targetElement = e.target as HTMLElement;
     if (targetElement.tagName === "BUTTON") {
-      setSearchParams(`?_page=${targetElement.textContent}&_per_page=${countSelectValue}&${sortSelectValue}`);
+      setSearchParams({ page: Number(targetElement.textContent) || null, perPage, search });
       controlContainerRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -72,12 +49,12 @@ const HomePage: FC = () => {
   return (
     <>
       <div className={s.controlContainer} ref={controlContainerRef}>
-        <SearchInput value={searchValue} onChange={onSearchChangeHandler} />
-        <SortSelect value={sortSelectValue} onChange={onSortSelectChangeHandler} />
-        <CountSelect value={countSelectValue} onChange={onCountSelectChangeHandler} />
+        <SearchInput value={search} onChange={onSearchChangeHandler} />
+        <SortSelect value={sort} onChange={onSortSelectChangeHandler} />
+        <CountSelect value={String(perPage)} onChange={onCountSelectChangeHandler} />
       </div>
-      {isLoading && <Loader />}
-      {error && <p>Error: {error}</p>}
+      {isPending && <Loader />}
+      {isError && <p>Error: {error.message}</p>}
 
       <QuestionsCardList cards={questions?.data ?? []} />
 
@@ -87,7 +64,7 @@ const HomePage: FC = () => {
         pagination.length > 1 && (
           <div className={s.paginationContainer} onClick={paginationHandler}>
             {pagination.map((value) => (
-              <Button key={value} isActive={value === getActivePageNumber(questions as QuestionCardDataType)}>
+              <Button key={value} isActive={value === getActivePageNumber()}>
                 {value}
               </Button>
             ))}
