@@ -11,7 +11,7 @@ import s from "./index.module.css";
 
 const HomePage: FC = () => {
   const controlContainerRef = useRef<HTMLDivElement | null>(null);
-  const [{ page, perPage, sort, search }, setSearchParams] = useCardsSearchParams();
+  const [{ perPage, sort, search }, setSearchParams] = useCardsSearchParams();
   const { data: questions, isPending, isError, error } = useGetlistCards();
 
   const getActivePageNumber = (): number | null => {

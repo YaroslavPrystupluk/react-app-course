@@ -7,10 +7,17 @@ import { IS_AUTH_LOCAL_STORAGE } from "../../constants/global.constants";
 import { ThemeToggler } from "../../feature/ThemeToggler";
 
 import s from "./index.module.css";
+import { useCardsSearchParams } from "../../page/HomePage/constants";
 
 const Header: FC = () => {
   const navigate = useNavigate();
   const { isAuth, setIsAuth } = useAuth();
+  const [, setSearchParams] = useCardsSearchParams();
+
+  const handleClick = (): void => {
+    setSearchParams(null);
+    navigate("/");
+  };
 
   const loginHandler = (): void => {
     localStorage.setItem(IS_AUTH_LOCAL_STORAGE, `${!isAuth}`);
@@ -19,7 +26,7 @@ const Header: FC = () => {
 
   return (
     <header className={s.header}>
-      <p onClick={() => navigate("/")}>
+      <p onClick={handleClick}>
         <img src={ReactLogo} alt="logo react" />
         <span>ReactCards</span>
       </p>
