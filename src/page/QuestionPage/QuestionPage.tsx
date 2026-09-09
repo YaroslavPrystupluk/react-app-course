@@ -5,9 +5,9 @@ import { Button } from "../../components/Button";
 import { Loader } from "../../components/Loader";
 import { SmallLoader } from "../../components/SmallLoader";
 import { useAuth } from "../../hooks/useAuth";
+import { useEditCard, useGetCard } from "../../api/questions";
 
 import s from "./index.module.css";
-import { useEditCard, useGetCard } from "../../api/questions";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
