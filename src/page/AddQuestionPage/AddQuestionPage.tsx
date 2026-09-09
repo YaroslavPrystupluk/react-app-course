@@ -1,10 +1,10 @@
 import { useActionState, type FC } from "react";
 import { toast } from "react-toastify";
-import { delayFn } from "../../helper/delayFn.ts";
-import { QuestionForm } from "../../components/QuestionForm/index.ts";
+import { delayFn } from "../../helper/delayFn";
+import { QuestionForm } from "../../components/QuestionForm";
 import { Loader } from "../../components/Loader";
-import type { QuestionCardStateType } from "../../types/global.types.ts";
-import { useCreateCard } from "../../api/questions/index.ts";
+import type { QuestionCardStateType } from "../../types/global.types";
+import { useCreateCard } from "../../api/questions";
 
 import s from "./index.module.css";
 
