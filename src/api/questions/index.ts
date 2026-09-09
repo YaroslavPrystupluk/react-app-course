@@ -2,6 +2,7 @@ import { queryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/r
 import { questionsApiService } from "./service";
 import { useCardsSearchParams } from "../../page/HomePage/constants";
 import type { CardsSearchParams, QuestionCardStateType } from "../../types/global.types";
+import { toast } from "react-toastify";
 
 export const questionKey = {
   getCards: () => ["cards"],
@@ -50,9 +51,14 @@ export const useEditCard = () => {
         ...old,
         ...data, // мерджимо відповідь сервера, а не замінюємо весь об'єкт
       }));
+      toast.success("Question updated successfully");
     },
-    onError: (_error, _, context) => {
-      queryClient.setQueryData(questionKey.getCards(), context?.prevCard);
+    onError: (error: unknown, _, context) => {
+      if (context?.prevCard) {
+        queryClient.setQueryData(questionKey.getCards(), context.prevCard);
+      }
+      const message = error instanceof Error ? error.message : "Something went wrong while updating the question";
+      toast.error(message);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: questionKey.getCards() });
