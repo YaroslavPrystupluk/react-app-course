@@ -13,7 +13,7 @@ export const questionsApiService = {
     return result.data;
   },
 
-  getCard: async (id: string) => {
+  getCard: async (id: string): Promise<QuestionCardStateType> => {
     const result = await instance.get(`react/${id}`);
     return result.data;
   },
@@ -23,8 +23,8 @@ export const questionsApiService = {
     return result.data;
   },
 
-  editCard: async (id: string, data: FormData): Promise<Partial<QuestionCardStateType>> => {
-    const result = await instance.post(`react/${id}`, { data });
+  editCard: async (id: string, data: Partial<QuestionCardStateType>): Promise<QuestionCardStateType> => {
+    const result = await instance.patch(`react/${id}`, data);
     return result.data;
   },
 

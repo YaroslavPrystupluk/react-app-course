@@ -1,13 +1,11 @@
-import { useEffect, useId, useState, type ChangeEvent } from "react";
+import { useId, type ChangeEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Badge } from "../../components/Badge";
 import { Button } from "../../components/Button";
-import { useFetch } from "../../hooks/useFetch";
-import { API_URL } from "../../constants/global.constants";
 import { Loader } from "../../components/Loader";
 import { SmallLoader } from "../../components/SmallLoader";
 import { useAuth } from "../../hooks/useAuth";
-import type { QuestionCardType } from "../../types/global.types";
+import { useEditCard, useGetCard } from "../../api/questions";
 
 import s from "./index.module.css";
 
@@ -15,47 +13,23 @@ const QuestionPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const checkboxId = useId();
-  const [card, setCard] = useState<QuestionCardType | null>(null);
   const { isAuth } = useAuth();
 
-  const [fetchCard, isLoading] = useFetch(async () => {
-    const response = await fetch(`${API_URL}/react/${id}`);
-    if (!response.ok) {
-      throw new Error("Something went wrong");
-    }
-    const data = await response.json();
-
-    setCard(data);
-  });
-
-  const [updateCard, updateCardIsLoading] = useFetch(async (isChecked) => {
-    const response = await fetch(`${API_URL}/react/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify({ completed: isChecked }),
-    });
-    if (!response.ok) {
-      throw new Error("Something went wrong");
-    }
-    const data = await response.json();
-    setCard(data);
-  });
-
-  useEffect(() => {
-    fetchCard();
-  }, []);
+  const { data: card, isPending } = useGetCard(id ?? "");
+  const updateChrckedMutation = useEditCard();
 
   const levelVariant = () => (card?.level === 1 ? "primary" : card?.level === 2 ? "success" : "alert");
   const completedVariant = () => (card?.completed ? "success" : "primary");
 
   const onCheckboxChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!id) return;
     const checked = e.target.checked;
-    setCard((prev) => (prev ? { ...prev, completed: checked } : null));
-    updateCard(checked);
+    updateChrckedMutation.mutate({ id, data: { completed: checked } });
   };
 
   return (
     <>
-      {isLoading && <Loader />}
+      {isPending && <Loader />}
       {card && (
         <div className={s.card}>
           <div className={s.cardLabels}>
@@ -87,17 +61,20 @@ const QuestionPage = () => {
               id={checkboxId}
               onChange={onCheckboxChangeHandler}
               checked={card.completed}
-              disabled={isLoading || updateCardIsLoading}
+              disabled={isPending || updateChrckedMutation.isPending}
             />
             <span>mark question as completed</span>
-            {updateCardIsLoading && <SmallLoader />}
+            {updateChrckedMutation.isPending && <SmallLoader />}
           </label>
           {isAuth && (
-            <Button onClick={() => navigate(`/editquestion/${card.id}`)} isDisabled={isLoading || updateCardIsLoading}>
+            <Button
+              onClick={() => navigate(`/editquestion/${card.id}`)}
+              isDisabled={isPending || updateChrckedMutation.isPending}
+            >
               Edit Question
             </Button>
           )}
-          <Button onClick={() => navigate(`/editquestion/${card.id}`)} isDisabled={isLoading || updateCardIsLoading}>
+          <Button onClick={() => navigate(`/editquestion/${card.id}`)} isDisabled={isPending || updateChrckedMutation.isPending}>
             Back
           </Button>
         </div>

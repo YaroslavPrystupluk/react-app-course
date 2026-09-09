@@ -1,11 +1,12 @@
-import { queryOptions, useMutation, useQuery } from "@tanstack/react-query";
+import { queryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { questionsApiService } from "./service";
 import { useCardsSearchParams } from "../../page/HomePage/constants";
 import type { CardsSearchParams, QuestionCardStateType } from "../../types/global.types";
 
 export const questionKey = {
+  getCards: () => ["cards"],
   getListCards: (params: CardsSearchParams) => ["cards", params],
-  getCard: (id: string) => ["card", id],
+  getCard: (id: string) => ["cards", id],
 };
 
 export const getListCardsOptions = (params: CardsSearchParams) =>
@@ -32,10 +33,32 @@ export const useCreateCard = () =>
     mutationFn: (data: Partial<QuestionCardStateType>) => questionsApiService.createCard(data),
   });
 
-export const useEditCard = () =>
-  useMutation({
-    mutationFn: ({ id, data }: { id: string; data: FormData }) => questionsApiService.editCard(id, data),
+export const useEditCard = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial<QuestionCardStateType> }) => questionsApiService.editCard(id, data),
+    onMutate: async (data) => {
+      await queryClient.cancelQueries({ queryKey: questionKey.getCards() });
+
+      const prevCard = await queryClient.getQueriesData({ queryKey: questionKey.getCards() });
+
+      queryClient.setQueryData(questionKey.getCards(), (oldData: Partial<QuestionCardStateType>) => [{ ...oldData, ...data }]);
+      return { prevCard };
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(questionKey.getCards(), (old: QuestionCardStateType) => ({
+        ...old,
+        ...data, // мерджимо відповідь сервера, а не замінюємо весь об'єкт
+      }));
+    },
+    onError: (_error, _, context) => {
+      queryClient.setQueryData(questionKey.getCards(), context?.prevCard);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: questionKey.getCards() });
+    },
   });
+};
 
 export const useDeleteCard = () =>
   useMutation({
